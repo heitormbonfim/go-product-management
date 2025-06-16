@@ -1,9 +1,9 @@
 version: "3.9"
 
 services:
-  go-app:
-    container_name: go-app
-    image: go-api-tutorial
+  go_api:
+    container_name: go_api
+    image: go-products-management
     build: .
     ports:
       - "8000:8000"
