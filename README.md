@@ -6,10 +6,26 @@ From the root directory
 go run cmd/main.go
 ```
 
+remember to replace in **db/conn.go** the "go_db" for "localhost" for development
+
 ## Docker
+
+1. to build the image
+
+```bash
+sudo docker build -t go-products-management .
+```
+
+2. to run the database isolated (for development)
 
 ```bash
 sudo docker compose up -d go_db
+```
+
+3. to run both images after build
+
+```bash
+sudo docker compose up -d
 ```
 
 ## Tables Creation

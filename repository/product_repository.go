@@ -47,3 +47,52 @@ func (pr *ProductRepository) GetProducts() ([]model.Product, error) {
 
 	return productList, nil
 }
+
+func (pr *ProductRepository) AddProduct(product model.Product) (int, error) {
+	var id int
+	query, err := pr.connection.Prepare("INSERT INTO product (product_name, price) VALUES ($1, $2) RETURNING id")
+
+	if err != nil {
+		fmt.Println(err)
+		return 0, err
+	}
+
+	err = query.QueryRow(product.Name, product.Price).Scan(&id)
+
+	if err != nil {
+		fmt.Println(err)
+		return 0, err
+	}
+
+	query.Close()
+	return id, nil
+}
+
+func (pr *ProductRepository) GetProductById(product_id int) (*model.Product, error) {
+	query, err := pr.connection.Prepare("SELECT * FROM product WHERE id = $1")
+
+	if err != nil {
+		fmt.Println(err)
+		return nil, err
+	}
+
+	var product model.Product
+
+	err = query.QueryRow(product_id).Scan(
+		&product.ID,
+		&product.Name,
+		&product.Price,
+	)
+
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, err
+		}
+
+		return nil, err
+	}
+
+	query.Close()
+
+	return &product, nil
+}
