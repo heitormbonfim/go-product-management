@@ -13,15 +13,12 @@ func main() {
 	server := gin.Default()
 
 	dbConnection, err := db.ConnectDB()
-
 	if err != nil {
 		panic(err)
 	}
 
 	ProductRepository := repository.NewProductRepository(dbConnection)
-
 	ProductUsecase := usecase.NewProductUsecase(ProductRepository)
-
 	ProductController := controller.NewProductController(ProductUsecase)
 
 	server.GET("/ping", func(ctx *gin.Context) {
@@ -33,6 +30,8 @@ func main() {
 	server.POST("/product", ProductController.AddProduct)
 	server.GET("/products", ProductController.GetProducts)
 	server.GET("/products/:productId", ProductController.GetProductById)
+	server.PUT("/products/:productId", ProductController.UpdateProduct)
+	server.DELETE("/products/:productId", ProductController.DeleteProduct)
 
 	server.Run(":8000")
 }

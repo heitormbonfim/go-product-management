@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	host     = "go_db" // use "localhost" for development
+	host     = "localhost" // use "localhost" for development
 	port     = 5432
 	user     = "postgres"
 	password = "1234"
